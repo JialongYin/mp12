@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: free
+  namespace: free-service
+spec:
+  template:
+    spec:
+      containers:
+      - name: mp12-container
+        image: jialongusa2/mp12:mp12-docker
+        env:
+        - name: DATASET
+          value: "mnist"
+        - name: TYPE
+          value: "ff"
+        resources:
+          limits:
+            memory: "600Mi"
+            cpu: "0.9"
+          requests:
+            memory: "200Mi"
+            cpu: "0.9"
+        command: ["python",  "/mp12/classify.py"]
+      restartPolicy: Never
+  backoffLimit: 4

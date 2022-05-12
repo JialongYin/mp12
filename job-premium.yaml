@@ -1,0 +1,26 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  generateName: premium
+  namespace: default
+spec:
+  template:
+    spec:
+      containers:
+      - name: mp12-container
+        image: jialongusa2/mp12:mp12-docker
+        env:
+        - name: DATASET
+          value: "kmnist"
+        - name: TYPE
+          value: "cnn"
+        resources:
+          limits:
+            memory: "600Mi"
+            cpu: "0.9"
+          requests:
+            memory: "200Mi"
+            cpu: "0.9"
+        command: ["python",  "/mp12/classify.py"]
+      restartPolicy: Never
+  backoffLimit: 4
